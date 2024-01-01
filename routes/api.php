@@ -3,9 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Api\ParentController;
-use App\Http\Controllers\Api\ChildController;
-use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\ParentController;
+use App\Http\Controllers\ChildController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,14 +29,14 @@ Route::get('/relationships/{parent}/children', [ParentController::class, 'showCh
 Route::get('/relationships/{child}/parents', [ChildController::class, 'showParents']);
 
 Route::prefix('parents')->group(function () {
-    Route::post('{parent}/children', [ParentController::class, 'createChild']);
+    Route::post('{parent}/children', [ParentController::class, 'addChild']);
     Route::put('{parent}/children/{child}', [ParentController::class, 'updateChild']);
     Route::delete('{parent}/children/{child}', [ParentController::class, 'deleteChild']);
     Route::post('{parent}/children/sync', [ParentController::class, 'syncChildren']);
 });
 
 Route::prefix('children')->group(function () {
-    Route::post('{child}/parents', [ChildController::class, 'createParent']);
+    Route::post('{child}/parents', [ChildController::class, 'addParent']);
     Route::put('{child}/parents/{parent}', [ChildController::class, 'updateParent']);
     Route::delete('{child}/parents/{parent}', [ChildController::class, 'deleteParent']);
     Route::post('{child}/parents/sync', [ChildController::class, 'syncParents']);

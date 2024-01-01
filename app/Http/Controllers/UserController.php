@@ -23,16 +23,18 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
-        $request->validate([
+        $fields = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:6|confirmed',
+            'role_id' => 'required|exists:roles,id'
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role_id' => $request->role_id
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -42,7 +44,7 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
+        $fields = $request->validate([
             'email' => 'required|email',
             'password' => 'required|string',
         ]);

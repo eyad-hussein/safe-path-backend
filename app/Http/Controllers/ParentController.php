@@ -14,7 +14,7 @@ class ParentController extends Controller
         return response()->json(['parent' => $parent, 'children' => $children]);
     }
 
-    public function createChild(Request $request, User $parent)
+    public function addChild(Request $request, User $parent)
     {
         $request->validate([
             'child_id' => 'required|exists:users,id',
